@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/kcomain/jumpcutter.svg?branch=master)](https://travis-ci.org/kcomain/jumpcutter)
 # jumpcutter
 Automatically edits videos. Explanation here: https://www.youtube.com/watch?v=DQ8orIurGxw
 
