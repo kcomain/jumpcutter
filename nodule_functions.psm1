@@ -1,0 +1,3 @@
+﻿function ConfirmDialog{
+    echo hi
+}

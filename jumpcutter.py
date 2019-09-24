@@ -1,22 +1,68 @@
-#!/usr/bin/env python3
+print("Importing libraries     [contextlib.closing]                  [01/13]",end='\r')
 from contextlib import closing
+print("Importing libraries     [PIL.Image]                           [02/13]",end='\r')
 from PIL import Image
+print("Importing libraries     [subprocess]                          [03/13]",end='\r')
 import subprocess
+print("Importing libraries     [audiotsm.phasevocoder]               [04/13]",end='\r')
 from audiotsm import phasevocoder
+print("Importing libraries     [audiotsm.io.wav.WavReader, WavWriter][05/13]",end='\r')
 from audiotsm.io.wav import WavReader, WavWriter
+print("Importing libraries     [scipy.io.wavfile]                    [06/13]",end='\r')
 from scipy.io import wavfile
+print("Importing libraries     [numpy]                               [07/13]",end='\r')
 import numpy as np
+print("Importing libraries     [re]                                  [08/13]",end='\r')
 import re
+print("Importing libraries     [math]                                [09/13]",end='\r')
 import math
+print("Importing libraries     [shutil.copyfile,rmtree]              [10/13]",end='\r')
 from shutil import copyfile, rmtree
+print("Importing libraries     [os]                                  [11/13]",end='\r')
 import os
+print("Importing libraries     [argparse]                            [12/13]",end='\r')
 import argparse
+print("Importing libraries     [pytube.YouTube]    DONE              [13/13]")
 from pytube import YouTube
-
+def cleanup():
+    print('Cleaning up...')
+    if os.path.isfile('names.txt'):
+        filea=open('names.txt','r')
+        ee=filea.read()
+        print('removing youtube video \"'+str(ee)+'.mp4\"')
+        os.remove(ee+'.mp4')
+        print('success :)')
+    else:
+        print('no youtube video needed to be removed :)')
+    if os.path.isdir("./TEMP"):
+        print('removing tempoary directory...')
+        rmtree('TEMP')
+        print('Removal Successful')
+    print('Done cleaning up :)')
 def downloadFile(url):
-    name = YouTube(url).streams.first().download()
+    vidname = YouTube(url).title
+    print('Downloading video...')
+    name = YouTube(url, on_progress_callback=pfc).streams.first().download()
+    
+    def pfc(self,stream, chunk,file_handle, bytes_remaining):
+        size = video.filesize
+        p = 0
+        while p <= 100:
+            progress = p
+            print ('{}%'.format(String(p)))
+            p = percent(bytes_remaining, size)
+        
+    print('done downloading')
+    print('The video is called'+vidname)
+    f1=open("names.txt","w+")
+    f1.write(vidname)
+    f1.close()    
     newname = name.replace(' ','_')
+    f1=open("names.txt","w")
+    f1.write(newname)
+    f1.close()
     os.rename(name,newname)
+    os.remove("names.txt")
     return newname
 
 def getMaxVolume(s):
@@ -31,7 +77,7 @@ def copyFrame(inputFrame,outputFrame):
         return False
     copyfile(src, dst)
     if outputFrame%20 == 19:
-        print(str(outputFrame+1)+" time-altered frames saved.")
+        print(str(outputFrame+1)+" time-altered frames saved.",end='\r')
     return True
 
 def inputToOutputFilename(filename):
@@ -68,7 +114,7 @@ parser.add_argument('--frame_quality', type=int, default=3, help="quality of fra
 args = parser.parse_args()
 
 
-
+cleanup()
 frameRate = args.frame_rate
 SAMPLE_RATE = args.sample_rate
 SILENT_THRESHOLD = args.silent_threshold
@@ -78,10 +124,10 @@ if args.url != None:
     INPUT_FILE = downloadFile(args.url)
 else:
     INPUT_FILE = args.input_file
-URL = args.url
+URL = args.url  
 FRAME_QUALITY = args.frame_quality
 
-assert INPUT_FILE != None , "why u put no input file, that dum"
+assert INPUT_FILE != None , "put some imput files using \"--input_file <filename>\" please"
     
 if len(args.output_file) >= 1:
     OUTPUT_FILE = args.output_file

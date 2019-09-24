@@ -23,7 +23,7 @@ var/
 *.egg-info/
 .installed.cfg
 *.egg
-
+dhfaked/
 # PyInstaller
 #  Usually these files are written by a python script from a template
 #  before PyInstaller builds the exe, so as to inject date/other infos into it.
@@ -93,3 +93,10 @@ ENV/
 *.iml
 out
 gen
+
+# VS Code
+.vscode
+/.vscode
+ffmpeg*/
+*.mp4
+tempoary/
