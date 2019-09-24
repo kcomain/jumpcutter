@@ -39,18 +39,23 @@ def cleanup():
         rmtree('TEMP')
         print('Removal Successful')
     print('Done cleaning up :)')
+
+def percentcalc(part,whole):
+    new = 0
+    new = (part/whole)*100
+    return new
 def downloadFile(url):
     vidname = YouTube(url).title
     print('Downloading video...')
     name = YouTube(url, on_progress_callback=pfc).streams.first().download()
-    
+
     def pfc(self,stream, chunk,file_handle, bytes_remaining):
-        size = video.filesize
+        size = name.filesize
         p = 0
         while p <= 100:
             progress = p
-            print ('{}%'.format(String(p)))
-            p = percent(bytes_remaining, size)
+            print ('{}%'.format(str(progress)),end='\r')
+            p = percentcalc(bytes_remaining, size)
         
     print('done downloading')
     print('The video is called'+vidname)
