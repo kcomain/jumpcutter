@@ -47,16 +47,16 @@ def percentcalc(part,whole):
 def downloadFile(url):
     vidname = YouTube(url).title
     print('Downloading video...')
-    name = YouTube(url, on_progress_callback=pfc).streams.first().download()
-
-    def pfc(self,stream, chunk,file_handle, bytes_remaining):
-        size = name.filesize
-        p = 0
-        while p <= 100:
-            progress = p
-            print ('{}%'.format(str(progress)),end='\r')
-            p = percentcalc(bytes_remaining, size)
-        
+    #name = YouTube(url, on_progress_callback=pfc).streams.first().download()
+    name = YouTube(url).streams.first().download()
+ #   def pfc(self,stream, chunk,file_handle, bytes_remaining):
+ #       size = name.filesize
+ #       p = 0
+ #       while p <= 100:
+ #           progress = p
+ #           print ('{}%'.format(str(progress)),end='\r')
+ #           p = percentcalc(bytes_remaining, size)
+ #       return 0
     print('done downloading')
     print('The video is called'+vidname)
     f1=open("names.txt","w+")
